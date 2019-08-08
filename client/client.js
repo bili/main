@@ -1,3 +1,7 @@
+/**
+ * 
+ * 重构为vue
+ * 改写为socket.io 2 */
 /*
  *
  * NOTE: The client side of hack.chat is currently in development,
@@ -206,7 +210,7 @@ function notify(args) {
 		}
 	}
 }
-
+// 加入channel
 function join(channel) {
 	if (document.domain == 'hack.chat') {
 		// For https://hack.chat/
@@ -241,6 +245,7 @@ function join(channel) {
 		wasConnected = true;
 	}
 
+	// 断开连接后
 	ws.onclose = function () {
 		if (wasConnected) {
 			pushMessage({ nick: '!', text: "Server disconnected. Attempting to reconnect. . ." });
@@ -261,6 +266,7 @@ function join(channel) {
 
 var COMMANDS = {
 	chat: function (args) {
+		// 如果在忽略的用户列表里，则不发送信息。
 		if (ignoredUsers.indexOf(args.nick) >= 0) {
 			return;
 		}
