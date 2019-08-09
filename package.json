@@ -12,8 +12,8 @@
     "npm": ">= 6.7.0"
   },
   "scripts": {
-    "start": "pm2 start ./server/main.js --name hackchat-dev-server && cd ./clientSource && npm start && pm2 stop hackchat-dev-server",
-    "postinstall": "cd ./clientSource && npm install && cd .. & cd ./server && npm install && npm run config"
+    "start": "pm2 start ./server/main.js --name hackchat-dev-server && cd ./client && npm start && pm2 stop hackchat-dev-server",
+    "postinstall": "cd ./client && npm install && cd .. & cd ./server && npm install && npm run config"
   },
   "author": "Marzavec",
   "license": "WTFPL",
