@@ -67,10 +67,11 @@ function commonConfig() {
     },
     resolve: {
       alias: {
-        '@component': path.resolve('../client/components'),
-        '@util': path.resolve('../client/utils')
-      }
+        '@component': path.resolve('../client/src/components'),
+      },
+      extensions: ['.js', '.vue','.json', '.css'],
     },
+
     plugins: [
       ...generateHTMLs(folders),
     ]

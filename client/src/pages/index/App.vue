@@ -1,14 +1,16 @@
 <template>
-    <div>
-        natter
-    </div>
+    <section>
+        <chat-window/>
+    </section>
 </template>
 
 <script>
 export default {
     name: 'App',
+    components: {
+        ChatWindow: () => import('@component/ChatWindow')
+    },
     mounted() {
-        console.log(111)
     }
 }
 </script>
