@@ -69,7 +69,7 @@ exports.loadCSS = (mode) => ({
           //     loader: 'vue-style-loader'
           // },
           {
-            loader: MiniCssExtractPlugin.loader
+            loader: MiniCssExtractPlugin.loader,
           },
           {
             loader: 'css-loader',
@@ -79,7 +79,7 @@ exports.loadCSS = (mode) => ({
               localIdentName: '[name]-[local]-[hash:base64:5]'
             }
           }
-        ]
+        ],
       }
     ]
   },
@@ -126,6 +126,19 @@ exports.addEslint = () => {
           cache: true
         }
       }]
+    }
+  }
+}
+
+exports.loadFont = () => {
+  {
+    module: {
+      rules: [
+        {
+          test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+          loader: 'file-loader'
+        }
+      ]
     }
   }
 }

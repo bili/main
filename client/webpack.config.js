@@ -81,7 +81,8 @@ function commonConfig() {
     parts.devtool(mode),
     parts.addBanner(),
     parts.addEslint(),
-    parts.loadVue()
+    parts.loadVue(),
+    parts.loadFont()
   )
 };
 
