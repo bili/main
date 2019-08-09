@@ -92,8 +92,17 @@ exports.loadCSS = (mode) => ({
 });
 
 exports.loadVue = () => ({
-  test: /\.vue$/,
-  loader: 'vue-loader'
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      }
+    ]
+  },
+  plugins: [
+    new VueLoaderPlugin()
+  ]
 });
 
 exports.clean = path => ({

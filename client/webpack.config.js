@@ -79,7 +79,8 @@ function commonConfig() {
     parts.loadCSS(mode),
     parts.devtool(mode),
     parts.addBanner(),
-    parts.addEslint()
+    parts.addEslint(),
+    parts.loadVue()
   )
 };
 
