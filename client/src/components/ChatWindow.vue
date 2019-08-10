@@ -76,4 +76,7 @@ export default {
     padding: 5px;
     border-bottom: 1px solid #eee;
 }
+.row:last-child {
+    border-bottom: none;
+}
 </style>
