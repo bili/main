@@ -5,8 +5,6 @@
 </template>
 
 <script>
-// import "iview/dist/styles/iview.css";
-
 export default {
   name: "App",
   components: {
@@ -17,4 +15,13 @@ export default {
 </script>
 
 <style>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+* {
+  cursor: default;
+}
 </style>
