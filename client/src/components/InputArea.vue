@@ -41,6 +41,7 @@ textarea {
   padding: 10px;
   font-size: 16px;
   border: none;
+  resize: none;
   /* border-top: 3px solid blue; */
 }
 .btn-wrapper {
