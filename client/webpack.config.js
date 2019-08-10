@@ -71,7 +71,6 @@ function commonConfig() {
       },
       extensions: ['.js', '.vue','.json', '.css'],
     },
-
     plugins: [
       ...generateHTMLs(folders),
     ]
@@ -82,7 +81,8 @@ function commonConfig() {
     parts.addBanner(),
     parts.addEslint(),
     parts.loadVue(),
-    parts.loadFont()
+    parts.loadFont(),
+    parts.copyStatic()
   )
 };
 

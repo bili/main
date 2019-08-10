@@ -1,6 +1,6 @@
 <template>
   <section>
-    <textarea v-model="input" placeholder="你想说啥？"></textarea>
+    <textarea ref="inputArea" v-model="input" placeholder="你想说啥？" autofocus></textarea>
     <div class="btn-wrapper">
       <Button type="default" long @click="send">Primary</Button>
     </div>
@@ -21,8 +21,10 @@ export default {
   },
   methods: {
     send() {
-      alert(this.input);
+      this.$refs.inputArea.focus();
+      if (this.input.trim() == "") return;
       this.$emit("send", this.input);
+      this.input = "";
     }
   }
 };

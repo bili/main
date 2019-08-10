@@ -6,30 +6,14 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 exports.devServer = () => ({
   devServer: {
     contentBase: path.resolve(__dirname, "dist"),
     hot: true,
     compress: true,
-    open: true,
-    before(app) {
-      app.get('/page', function (req, res) {
-        res.json({ page: 'index' })
-      })
-    },
-    proxy: {
-      '/api': {
-        /**
-         * 请求/api/now 相当于访问http://localhost:8080/api/now
-         * 然后转发至 http://localhost:3000/now
-         */
-        target: 'http://localhost:3000',
-        pathRewrite: {
-          '/api': ''
-        }
-      }
-    }
+    open: true
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
@@ -140,5 +124,17 @@ exports.loadFont = () => {
         }
       ]
     }
+  }
+}
+
+exports.copyStatic = () => {
+  return {
+    context: path.resolve('./'),
+    plugins: [
+      new CopyWebpackPlugin([{
+        from: path.resolve('./src/static'),
+        ignore: ['.*']
+      }])
+    ]
   }
 }

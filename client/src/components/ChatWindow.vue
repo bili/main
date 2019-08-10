@@ -2,15 +2,15 @@
   <div class="layout">
     <Sider></Sider>
     <Layout>
-      <Content ref="content">
-        <div class="channel">
+      <Content class="content">
+        <div ref="channel" class="channel" :class="{shadow: isOverflow}">
           Channel:
           <span>{{channel}}</span>
         </div>
-        <Scroll :height="scrollHeight">
+        <Scroll ref="scrollView" :height="scrollHeight">
           <message class="row" v-for="(item, index) in messages" :key="index" :msg="item" />
         </Scroll>
-        <input-area id="inputArea" />
+        <input-area ref="inputArea" @send="pushMessage" />
       </Content>
     </Layout>
   </div>
@@ -53,27 +53,51 @@ export default {
         { text: `Message Layout` },
         { text: `Message Layout` }
       ],
-      scrollHeight: 0
+      scrollHeight: 0,
+      isOverflow: false
     };
   },
   mounted() {
-    this.$on("send", input => {
-      this.messages.push({
-        text: input
-      });
-    });
     let resize = debounce(this.autoResize, 50);
     resize();
     window.onresize = () => {
       resize();
     };
+    console.log(this.$refs.scrollView.$el.querySelector(".ivu-scroll-content"))
+    this.$refs.scrollView.$el.querySelector(".ivu-scroll-content").addEventListener('', () => {
+      console.log(1)
+    }, false);
   },
   methods: {
     autoResize() {
       this.scrollHeight =
         window.innerHeight -
-        parseFloat(this.$el.querySelector("#inputArea").clientHeight) -
-        parseFloat(this.$el.querySelector(".channel").clientHeight);
+        parseFloat(this.$refs.inputArea.$el.clientHeight) -
+        parseFloat(this.$refs.channel.offsetHeight);
+    },
+    scrollToBottom() {
+      this.$refs.scrollView.$el
+        .querySelector(".ivu-scroll-content")
+        .scrollIntoView({ block: "end", behavior: "smooth" });
+    },
+    pushMessage(input) {
+      this.messages.push({
+        text: input
+      });
+      setTimeout(() => {
+        this.scrollToBottom();
+        if (
+          this.$refs.scrollView.$el &&
+          this.$refs.scrollView.$el.querySelector(".ivu-scroll-content")
+            .offsetTop > 0
+        ) {
+          this.isOverflow = true;
+        }
+      }, 50);
+    },
+    scroll() {
+      console.log(1)
+      // this.isOverflow = false;
     }
   }
 };
@@ -102,6 +126,12 @@ export default {
   font-size: 16px;
   background: white;
   color: #999;
+}
+.channel.shadow {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
 }
 .channel > span {
   color: blue;
