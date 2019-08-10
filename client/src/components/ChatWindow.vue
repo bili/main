@@ -3,17 +3,21 @@
     <Sider></Sider>
     <Layout>
       <Content ref="content">
-        <div class="channel">Channel: {{channel}}</div>
-        <Scroll height="500">
+        <div class="channel">
+          Channel:
+          <span>{{channel}}</span>
+        </div>
+        <Scroll :height="scrollHeight">
           <message class="row" v-for="(item, index) in messages" :key="index" :msg="item" />
         </Scroll>
-        <input-area/>
+        <input-area id="inputArea" />
       </Content>
     </Layout>
   </div>
 </template>
 
 <script>
+import { debounce } from "lodash";
 import { Layout, Sider, Icon, Scroll, Card } from "iview";
 import Message from "@component/Message";
 import InputArea from "@component/InputArea";
@@ -42,10 +46,36 @@ export default {
         {
           text: `你可以像绑定普通属性一样在模板中绑定计算属性。Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生改变时，所有依赖 vm.reversedMessage 的绑定也会更新。`
         },
-      ]
+        { text: `Message Layout` },
+        { text: `Message Layout` },
+        { text: `Message Layout` },
+        { text: `Message Layout` },
+        { text: `Message Layout` },
+        { text: `Message Layout` }
+      ],
+      scrollHeight: 0
     };
   },
-  methods: {}
+  mounted() {
+    this.$on("send", input => {
+      this.messages.push({
+        text: input
+      });
+    });
+    let resize = debounce(this.autoResize, 50);
+    resize();
+    window.onresize = () => {
+      resize();
+    };
+  },
+  methods: {
+    autoResize() {
+      this.scrollHeight =
+        window.innerHeight -
+        parseFloat(this.$el.querySelector("#inputArea").clientHeight) -
+        parseFloat(this.$el.querySelector(".channel").clientHeight);
+    }
+  }
 };
 </script>
 
@@ -68,15 +98,19 @@ export default {
   height: auto !important;
 }
 .channel {
-    padding: 5px 10px;
-    font-size: 16px;
-    background: white;
+  padding: 5px 10px;
+  font-size: 16px;
+  background: white;
+  color: #999;
+}
+.channel > span {
+  color: blue;
 }
 .row {
-    padding: 5px;
-    border-bottom: 1px solid #eee;
+  padding: 5px;
+  border-bottom: 1px solid #eee;
 }
 .row:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 </style>
