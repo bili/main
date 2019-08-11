@@ -8,7 +8,12 @@
           <span>{{channel}}</span>
         </div>
         <Scroll ref="scrollView" :height="scrollHeight">
-          <message class="row" v-for="(item, index) in messages" :key="index" :msg="item" />
+          <message
+            class="row"
+            v-for="(item, index) in messages"
+            :key="index"
+            :msg="item"
+          />
         </Scroll>
         <input-area ref="inputArea" @send="sendMessage" />
       </Content>
@@ -37,16 +42,16 @@ export default {
     return {
       channel: "乡下大佬",
       messages: [
-        { text: 1 },
-        { text: "Computed reversed message" },
-        { text: `Original message: "Hello"` },
-        { text: `额外操作和主体内容` },
-        { text: `Message Layout` },
-        { text: 2 },
-        {
-          text: `你可以像绑定普通属性一样在模板中绑定计算属性。Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生改变时，所有依赖 vm.reversedMessage 的绑定也会更新。`
-        },
-        { text: `Message Layout` }
+        // { text: 1 },
+        // { text: "Computed reversed message" },
+        // { text: `Original message: "Hello"` },
+        // { text: `额外操作和主体内容` },
+        // { text: `Message Layout` },
+        // { text: 2 },
+        // {
+        //   text: `你可以像绑定普通属性一样在模板中绑定计算属性。Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生改变时，所有依赖 vm.reversedMessage 的绑定也会更新。`
+        // },
+        // { text: `Message Layout` }
       ],
       scrollHeight: 0,
       isOverflow: false,
@@ -88,7 +93,8 @@ export default {
       console.log("push=====", args);
       if (args.text) {
         this.messages.push({
-          text: args.text
+          text: args.text,
+          nick: args.nick
         });
       }
       setTimeout(() => {
@@ -155,18 +161,16 @@ export default {
       this.ws.onmessage = message => {
         var args = JSON.parse(message.data);
         var cmd = args.cmd;
-        console.log('onmessage', args)
+        console.log("onmessage", args);
         // var command = this[cmd];
         // command.call(null, args);
-        this.chat.call(null, args)
+        this.chat.call(null, args);
       };
     },
     chat(args) {
       this.pushMessage(args);
     },
-    onlineSet(args) {
-
-    }
+    onlineSet(args) {}
   }
 };
 </script>

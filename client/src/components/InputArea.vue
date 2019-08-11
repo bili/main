@@ -21,7 +21,7 @@ export default {
   name: "input-area",
   data() {
     return {
-      input: "今天我们要教大家如何通过webhook发送通知到BearyChat（倍洽）"
+      input: ""
     };
   },
   components: {

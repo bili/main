@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="status">
-      <div class="sender">bilipan</div>
+      <div class="sender">{{msg.nick}}</div>
       <div class="send-time">{{new Date().getTime()}}</div>
     </div>
     <div class="msg">
@@ -17,6 +17,9 @@ export default {
   computed: {
     text() {
       return this.msg.text || "";
+    },
+    nick() {
+      return this.msg.nick || 'unknown';
     }
   }
 };
