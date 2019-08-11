@@ -1,6 +1,11 @@
 <template>
   <section>
-    <chat-window channel="乡下大佬"/>
+    <div class="entry">
+      <router-link to="/channel/乡下大佬">乡下大佬</router-link>
+      <router-link to="/channel/A">A</router-link>
+    </div>
+    <router-view></router-view>
+    <!-- <chat-window channel="乡下大佬"/> -->
   </section>
 </template>
 
@@ -23,5 +28,12 @@ body {
 }
 * {
   cursor: default;
+}
+.entry {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>

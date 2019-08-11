@@ -77,6 +77,7 @@ export default {
         },
         false
       );
+    this.channel = this.$route.params.channel;
     this.join(this.channel);
   },
   methods: {
@@ -92,7 +93,6 @@ export default {
         .scrollIntoView({ block: "end", behavior: "smooth" });
     },
     pushMessage(args) {
-      console.log("push=====", args);
       if (args.text) {
         this.messages.push({
           text: args.text,
@@ -118,7 +118,6 @@ export default {
       this.send({ cmd: "chat", text: input });
     },
     send(data) {
-      console.log("sending=====", data);
       if (this.ws && this.ws.readyState == this.ws.OPEN) {
         this.ws.send(JSON.stringify(data));
       }
@@ -127,16 +126,11 @@ export default {
       let protocol = location.protocol === "https:" ? "wss:" : "ws:";
       let wsPath = ":6060";
       this.ws = new WebSocket(protocol + "//" + document.domain + wsPath);
-
       let wasConnected = false;
 
       this.ws.onopen = () => {
         if (!wasConnected) {
-          if (location.hash) {
-            this.myNick = location.hash.substr(1);
-          } else {
-            this.myNick = prompt("Nickname:", this.myNick);
-          }
+          this.myNick = prompt("Nickname:", this.myNick);
         }
 
         if (this.myNick) {
