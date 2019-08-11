@@ -39,18 +39,18 @@ export default {
   margin: 5px;
   border-radius: 10px;
   border-top-left-radius: 0;
-  border-left: 3px solid #ccc;
+  /* border-left: 3px solid #ccc;
   border-bottom: 1px solid #ccc;
-  background: #eee;
+  background: #eee; */
+  background: linear-gradient(0deg, #b3dccd, #ccefdd);
   font-weight: bold;
   color: #333;
-  transition: all 0.05s;
 }
-.msg:hover > div {
-  color: white;
-  background: blue;
-  border-color: darkblue;
-  transition: all 0.05s;
+.wrapper:hover .msg > div {
+  /* color: white; */
+  background: linear-gradient(0deg, #4a9bff, #43dcff);
+  /* background: blue;
+  border-color: darkblue; */
 }
 .send-time {
   margin-left: 10px;

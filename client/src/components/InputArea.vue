@@ -39,7 +39,7 @@ textarea {
   height: 150px;
   outline: none;
   padding: 10px;
-  font-size: 16px;
+  font-size: 13px;
   border: none;
   resize: none;
   /* border-top: 3px solid blue; */
