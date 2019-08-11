@@ -7,7 +7,7 @@
           <Icon type="ios-chatbubbles" size="20" color="#ccc" />
           <span>{{channel}}</span>
           <span class="href" @click="copy(href)">{{href}}</span>
-          <Icon type="md-copy" class="copy" @click="copy(href)" />
+          <Icon type="md-copy" class="copy" color="#ccc" @click="copy(href)" />
         </div>
         <Scroll ref="scrollView" :height="scrollHeight">
           <message
