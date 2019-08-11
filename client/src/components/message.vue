@@ -39,6 +39,7 @@ export default {
 }
 .msg > div {
   display: inline-flex;
+  max-width: 90%;
   padding: 5px 10px;
   margin: 5px;
   border-radius: 10px;
@@ -52,7 +53,7 @@ export default {
 }
 .wrapper:hover .msg > div {
   /* color: white; */
-  background: linear-gradient(0deg, #4a9bff, #43dcff);
+  /* background: linear-gradient(0deg, #4a9bff, #43dcff); */
   /* background: blue;
   border-color: darkblue; */
 }
