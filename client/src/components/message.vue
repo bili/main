@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :class="{me: msg.nick == me}">
     <div class="status">
       <div class="sender">{{msg.nick}}</div>
       <div class="send-time">{{new Date().getTime()}}</div>
@@ -13,15 +13,16 @@
 <script>
 export default {
   name: "message",
-  props: ["msg"],
+  props: ["msg", "me"],
   computed: {
     text() {
       return this.msg.text || "";
     },
     nick() {
-      return this.msg.nick || 'unknown';
+      return this.msg.nick || "unknown";
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 
@@ -57,5 +58,20 @@ export default {
 }
 .send-time {
   margin-left: 10px;
+}
+
+.me .status {
+  justify-content: flex-end;
+}
+.me .msg {
+  display: flex;
+  justify-content: flex-end;
+}
+.me .msg > div {
+  color: white;
+  background: linear-gradient(0deg, #d322ff, #8e79ff);
+  /* background: linear-gradient(0deg, #ff5722, #ff8279); */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 0;
 }
 </style>

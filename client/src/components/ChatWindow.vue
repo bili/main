@@ -13,6 +13,7 @@
             v-for="(item, index) in messages"
             :key="index"
             :msg="item"
+            :me="myNick"
           />
         </Scroll>
         <input-area ref="inputArea" @send="sendMessage" />
