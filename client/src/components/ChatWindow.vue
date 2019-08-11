@@ -6,6 +6,8 @@
         <div ref="channel" class="channel" :class="{shadow: isOverflow}">
           <Icon type="ios-chatbubbles" size="20" color="#ccc" />
           <span>{{channel}}</span>
+          <span class="href" @click="copy(href)">{{href}}</span>
+          <Icon type="md-copy" class="copy" @click="copy(href)" />
         </div>
         <Scroll ref="scrollView" :height="scrollHeight">
           <message
@@ -24,7 +26,7 @@
 
 <script>
 import { debounce } from "lodash";
-import { Layout, Sider, Icon, Scroll, Card } from "iview";
+import { Layout, Sider, Icon, Scroll, Card, Message as Msg } from "iview";
 import Message from "@component/Message";
 import InputArea from "@component/InputArea";
 export default {
@@ -38,8 +40,11 @@ export default {
     Card,
     InputArea
   },
-  computed: {},
-  props: ["channel"],
+  computed: {
+    href() {
+      return decodeURIComponent(window.location.href);
+    }
+  },
   data() {
     return {
       channel: "",
@@ -130,7 +135,7 @@ export default {
 
       this.ws.onopen = () => {
         if (!wasConnected) {
-          this.myNick = prompt("Nickname:", this.myNick);
+          this.myNick = prompt("创建一个昵称:", this.myNick);
         }
 
         if (this.myNick) {
@@ -166,7 +171,24 @@ export default {
     chat(args) {
       this.pushMessage(args);
     },
-    onlineSet(args) {}
+    onlineSet(args) {},
+    copy(data) {
+      if (window.clipboardData) {
+        window.clipboardData.setData("channel", data);
+      } else {
+        var textArea = document.createElement("textarea");
+        textArea.style.position = "absolute";
+        textArea.style.left = "-100%";
+        textArea.value = data;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+        console.log(this.$Message)
+        Msg.success('复制channel成功');
+      }
+    }
   }
 };
 </script>
@@ -204,11 +226,19 @@ export default {
 .channel > span {
   color: #000;
 }
+.channel > span.href {
+  font-size: 13px;
+  color: #ccc;
+}
 .row {
   padding: 5px;
   border-bottom: 1px solid #eee;
 }
 .row:last-child {
   border-bottom: none;
+}
+.href,
+.copy {
+  cursor: pointer !important;
 }
 </style>

@@ -9,7 +9,7 @@
     ></textarea>
     <div class="btn-wrapper">
       <Button type="default" long @click="send">
-        <Icon type="ios-send" size="24" />发送
+        <Icon type="ios-send" size="24" />发送(shift+enter)
       </Button>
     </div>
   </section>
