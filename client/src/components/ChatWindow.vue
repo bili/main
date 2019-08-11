@@ -4,13 +4,13 @@
     <Layout>
       <Content class="content">
         <div ref="channel" class="channel" :class="{shadow: isOverflow}">
-          <Icon type="ios-chatbubbles" size="20" color="#ccc"/>
+          <Icon type="ios-chatbubbles" size="20" color="#ccc" />
           <span>{{channel}}</span>
         </div>
         <Scroll ref="scrollView" :height="scrollHeight">
           <message class="row" v-for="(item, index) in messages" :key="index" :msg="item" />
         </Scroll>
-        <input-area ref="inputArea" @send="pushMessage" />
+        <input-area ref="inputArea" @send="sendMessage" />
       </Content>
     </Layout>
   </div>
@@ -46,10 +46,13 @@ export default {
         {
           text: `你可以像绑定普通属性一样在模板中绑定计算属性。Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生改变时，所有依赖 vm.reversedMessage 的绑定也会更新。`
         },
-        { text: `Message Layout` },
+        { text: `Message Layout` }
       ],
       scrollHeight: 0,
-      isOverflow: false
+      isOverflow: false,
+      ws: null,
+      COMMANDS: {},
+      myNick: ""
     };
   },
   mounted() {
@@ -58,10 +61,16 @@ export default {
     window.onresize = () => {
       resize();
     };
-    console.log(this.$refs.scrollView.$el.querySelector(".ivu-scroll-content"))
-    this.$refs.scrollView.$el.querySelector(".ivu-scroll-content").addEventListener('', () => {
-      console.log(1)
-    }, false);
+    this.$refs.scrollView.$el
+      .querySelector(".ivu-scroll-content")
+      .addEventListener(
+        "",
+        () => {
+          console.log(1);
+        },
+        false
+      );
+    this.join("channel");
   },
   methods: {
     autoResize() {
@@ -75,10 +84,13 @@ export default {
         .querySelector(".ivu-scroll-content")
         .scrollIntoView({ block: "end", behavior: "smooth" });
     },
-    pushMessage(input) {
-      this.messages.push({
-        text: input
-      });
+    pushMessage(args) {
+      console.log("push=====", args);
+      if (args.text) {
+        this.messages.push({
+          text: args.text
+        });
+      }
       setTimeout(() => {
         this.scrollToBottom();
         if (
@@ -91,8 +103,69 @@ export default {
       }, 50);
     },
     scroll() {
-      console.log(1)
+      console.log(1);
       // this.isOverflow = false;
+    },
+    sendMessage(input) {
+      this.send({ cmd: "chat", text: input });
+    },
+    send(data) {
+      console.log("sending=====", data);
+      if (this.ws && this.ws.readyState == this.ws.OPEN) {
+        this.ws.send(JSON.stringify(data));
+      }
+    },
+    join() {
+      let protocol = location.protocol === "https:" ? "wss:" : "ws:";
+      let wsPath = ":6060";
+      this.ws = new WebSocket(protocol + "//" + document.domain + wsPath);
+
+      let wasConnected = false;
+
+      this.ws.onopen = () => {
+        if (!wasConnected) {
+          if (location.hash) {
+            this.myNick = location.hash.substr(1);
+          } else {
+            this.myNick = prompt("Nickname:", this.myNick);
+          }
+        }
+
+        if (this.myNick) {
+          this.send({ cmd: "join", channel: this.channel, nick: this.myNick });
+        }
+
+        wasConnected = true;
+      };
+
+      // 断开连接后
+      this.ws.onclose = () => {
+        if (wasConnected) {
+          this.pushMessage({
+            nick: "!",
+            text: "Server disconnected. Attempting to reconnect. . ."
+          });
+        }
+
+        window.setTimeout(() => {
+          this.join(channel);
+        }, 2000);
+      };
+
+      this.ws.onmessage = message => {
+        var args = JSON.parse(message.data);
+        var cmd = args.cmd;
+        console.log('onmessage', args)
+        // var command = this[cmd];
+        // command.call(null, args);
+        this.chat.call(null, args)
+      };
+    },
+    chat(args) {
+      this.pushMessage(args);
+    },
+    onlineSet(args) {
+
     }
   }
 };
