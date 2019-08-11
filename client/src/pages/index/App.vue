@@ -1,6 +1,6 @@
 <template>
   <section>
-    <chat-window />
+    <chat-window channel="乡下大佬"/>
   </section>
 </template>
 

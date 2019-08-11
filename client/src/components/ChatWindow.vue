@@ -39,9 +39,10 @@ export default {
     InputArea
   },
   computed: {},
+  props: ["channel"],
   data() {
     return {
-      channel: "乡下大佬",
+      channel: "",
       messages: [
         // { text: 1 },
         // { text: "Computed reversed message" },
@@ -76,7 +77,7 @@ export default {
         },
         false
       );
-    this.join("channel");
+    this.join(this.channel);
   },
   methods: {
     autoResize() {
@@ -122,7 +123,7 @@ export default {
         this.ws.send(JSON.stringify(data));
       }
     },
-    join() {
+    join(channel) {
       let protocol = location.protocol === "https:" ? "wss:" : "ws:";
       let wsPath = ":6060";
       this.ws = new WebSocket(protocol + "//" + document.domain + wsPath);
@@ -139,7 +140,7 @@ export default {
         }
 
         if (this.myNick) {
-          this.send({ cmd: "join", channel: this.channel, nick: this.myNick });
+          this.send({ cmd: "join", channel: channel, nick: this.myNick });
         }
 
         wasConnected = true;
