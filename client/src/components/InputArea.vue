@@ -1,23 +1,32 @@
 <template>
   <section>
-    <textarea ref="inputArea" v-model="input" placeholder="你想说啥？" autofocus></textarea>
+    <textarea
+      ref="inputArea"
+      v-model="input"
+      placeholder="你想说啥？"
+      autofocus
+      @keyup.shift.enter="send"
+    ></textarea>
     <div class="btn-wrapper">
-      <Button type="default" long @click="send">Primary</Button>
+      <Button type="default" long @click="send">
+        <Icon type="ios-send" size="24" />发送
+      </Button>
     </div>
   </section>
 </template>
 
 <script>
-import { Button } from "iview";
+import { Button, Icon } from "iview";
 export default {
   name: "input-area",
   data() {
     return {
-      input: "今天我们要教大家如何通过webhook发送通知到BearyChat（倍洽）。"
+      input: "今天我们要教大家如何通过webhook发送通知到BearyChat（倍洽）"
     };
   },
   components: {
-    Button
+    Button,
+    Icon
   },
   methods: {
     send() {

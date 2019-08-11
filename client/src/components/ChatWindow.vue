@@ -4,7 +4,7 @@
     <Layout>
       <Content class="content">
         <div ref="channel" class="channel" :class="{shadow: isOverflow}">
-          Channel:
+          <Icon type="ios-chatbubbles" size="20" color="#ccc"/>
           <span>{{channel}}</span>
         </div>
         <Scroll ref="scrollView" :height="scrollHeight">
@@ -47,11 +47,6 @@ export default {
           text: `你可以像绑定普通属性一样在模板中绑定计算属性。Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生改变时，所有依赖 vm.reversedMessage 的绑定也会更新。`
         },
         { text: `Message Layout` },
-        { text: `Message Layout` },
-        { text: `Message Layout` },
-        { text: `Message Layout` },
-        { text: `Message Layout` },
-        { text: `Message Layout` }
       ],
       scrollHeight: 0,
       isOverflow: false
@@ -134,7 +129,7 @@ export default {
   transition: all 0.3s;
 }
 .channel > span {
-  color: blue;
+  color: #000;
 }
 .row {
   padding: 5px;
