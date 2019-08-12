@@ -36,43 +36,46 @@ export default {
   flex-direction: row;
   padding: 0 5px;
   color: #999;
+  transition: all 0.3s;
 }
 .msg > div {
   display: inline-flex;
-  max-width: 90%;
+  max-width: 60%;
   padding: 5px 10px;
   margin: 5px;
   border-radius: 10px;
   border-top-left-radius: 0;
-  /* border-left: 3px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  background: #eee; */
-  background: linear-gradient(0deg, #b3dccd, #ccefdd);
+  background: white;
   font-weight: bold;
-  color: #333;
+  color: #515a6e;
+  transition: all 0.3s;
 }
 .wrapper:hover .msg > div {
-  /* color: white; */
-  /* background: linear-gradient(0deg, #4a9bff, #43dcff); */
-  /* background: blue;
-  border-color: darkblue; */
+  transition: all 0.3s;
 }
 .send-time {
   margin-left: 10px;
 }
 
-.me .status {
-  justify-content: flex-end;
-}
-.me .msg {
-  display: flex;
-  justify-content: flex-end;
+/* 窄屏 */
+@media screen and (max-width: 400px) {
+  .msg > div {
+    max-width: 90%;
+  }
+  .me .status {
+    justify-content: flex-end;
+  }
+  .me .msg {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .me .msg > div {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 0;
+  }
 }
 .me .msg > div {
   color: white;
-  background: linear-gradient(0deg, #d322ff, #8e79ff);
-  /* background: linear-gradient(0deg, #ff5722, #ff8279); */
-  border-top-left-radius: 10px;
-  border-top-right-radius: 0;
+  background: #3f51b5;
 }
 </style>

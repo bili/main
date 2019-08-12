@@ -51,7 +51,7 @@ textarea {
   font-size: 13px;
   border: none;
   resize: none;
-  /* border-top: 3px solid blue; */
+  border-top: 1px solid #e0e0e0;
 }
 .btn-wrapper {
   padding: 10px 10px;

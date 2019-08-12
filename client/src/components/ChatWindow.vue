@@ -49,16 +49,27 @@ export default {
     return {
       channel: "",
       messages: [
-        // { text: 1 },
-        // { text: "Computed reversed message" },
-        // { text: `Original message: "Hello"` },
-        // { text: `额外操作和主体内容` },
-        // { text: `Message Layout` },
-        // { text: 2 },
-        // {
-        //   text: `你可以像绑定普通属性一样在模板中绑定计算属性。Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生改变时，所有依赖 vm.reversedMessage 的绑定也会更新。`
-        // },
-        // { text: `Message Layout` }
+        {
+          text: `BearyChat - 云+社区 - 腾讯云 湾区的创业团队估计都在用 (https:slack.com ),国内的新锐 im 团队基本也都是照着 slack 的样子来搞,比如 瀑布im、bearychat,特点是可以接入各类服务,用起来...`,
+          nick: "ken"
+        },
+        {
+          text: `用户端的报错信息会通过 Bug 收集工具上传到 Crash Reporter 系统，并以聊天机器人消息的形式发送到讨论组中。开发人员直接查收报错信息，无需定时去 Crash Reporter 系统进行人工检查。`,
+          nick: "bili"
+        },
+        { text: `npm install vue-router`, nick: "ken" },
+        {
+          text: `git clone https://github.com/vuejs/vue-router.git node_modules/vue-router cd node_modules/vue-router npm install npm run build`,
+          nick: "bili"
+        },
+        {
+          text: `Webhook可以用作升级一个issue追踪，触发CI构建，升级一个后端镜像，或者甚至是部署你的生产服务器。`,
+          nick: "ken"
+        },
+        {
+          text: `Server disconnected. Attempting to reconnect. . .`,
+          nick: "bili"
+        }
       ],
       scrollHeight: 0,
       isOverflow: false,
@@ -185,8 +196,7 @@ export default {
         textArea.select();
         document.execCommand("copy");
         document.body.removeChild(textArea);
-        console.log(this.$Message)
-        Msg.success('复制channel成功');
+        Msg.success("复制channel成功");
       }
     }
   }
@@ -203,7 +213,7 @@ export default {
 }
 /* 聊天window背景 */
 .ivu-scroll-wrapper {
-  /* background: lightgoldenrodyellow; */
+  background: #ececec;
 }
 .layout-header-bar {
   background: #fff;
@@ -220,7 +230,7 @@ export default {
 .channel.shadow {
   position: relative;
   z-index: 1;
-  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
 }
 .channel > span {
@@ -240,5 +250,11 @@ export default {
 .href,
 .copy {
   cursor: pointer !important;
+}
+.href {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
