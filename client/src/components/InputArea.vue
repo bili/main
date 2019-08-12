@@ -3,7 +3,7 @@
     <textarea
       ref="inputArea"
       v-model="input"
-      placeholder="你想说啥？"
+      :placeholder="placeholder"
       autofocus
       @keyup.shift.enter="send"
     ></textarea>
@@ -21,7 +21,8 @@ export default {
   name: "input-area",
   data() {
     return {
-      input: ""
+      input: "",
+      placeholder: `Type '/' for commands`
     };
   },
   components: {
