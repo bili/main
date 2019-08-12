@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section @drop="drop">
     <textarea
       ref="inputArea"
       v-model="input"
@@ -30,11 +30,26 @@ export default {
     Icon
   },
   methods: {
-    send() {
-      this.$refs.inputArea.focus();
-      if (this.input.trim() == "") return;
-      this.$emit("send", this.input);
-      this.input = "";
+    send(input) {
+      if (!input) {
+        this.$refs.inputArea.focus();
+        if (this.input.trim() == "") return;
+        this.$emit("send", this.input);
+        this.input = "";
+      } else {
+        this.$emit("send", input);
+      }
+    },
+    drop(e) {
+      const _this = this;
+      e.preventDefault();
+      let file = e.dataTransfer.files[0];
+      let reader = new FileReader();
+      reader.onload = function() {
+        _this.send(this.result);
+      };
+      reader.onerror = function() {};
+      reader.readAsText(file);
     }
   }
 };
