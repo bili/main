@@ -58,7 +58,7 @@ export default {
 }
 
 /* 窄屏 */
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 800px) {
   .msg > div {
     max-width: 90%;
   }

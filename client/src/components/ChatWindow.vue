@@ -1,7 +1,25 @@
 <template>
   <div class="layout">
-    <Sider></Sider>
-    <Layout>
+    <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto', borderRight: '1px solid #ddd', background: 'white  '}">
+      <Card title="Options" icon="ios-options" :padding="0" shadow style="width: 200px;">
+        <CellGroup>
+          <Cell title="Only show titles" />
+          <Cell title="Display label content" label="label content" />
+          <Cell title="Display right content" extra="details" />
+          <Cell title="Link" extra="details" to="/components/button" />
+          <Cell title="Open link in new window" to="/components/button" target="_blank" />
+          <Cell title="Disabled" disabled />
+          <Cell title="Selected" selected />
+          <Cell title="With Badge" to="/components/badge">
+            <Badge :count="10" slot="extra" />
+          </Cell>
+          <Cell title="With Switch">
+            <ISwitch v-model="switchValue" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Sider>
+    <Layout :style="{marginLeft: '200px'}">
       <Content class="content">
         <div ref="channel" class="channel" :class="{shadow: isOverflow}">
           <Icon type="ios-chatbubbles" size="20" color="#ccc" />
@@ -26,7 +44,18 @@
 
 <script>
 import { debounce } from "lodash";
-import { Layout, Sider, Icon, Scroll, Card, Message as Msg } from "iview";
+import {
+  Layout,
+  Sider,
+  Icon,
+  Scroll,
+  Card,
+  Cell,
+  CellGroup,
+  Message as Msg,
+  Switch as ISwitch,
+  Badge
+} from "iview";
 import Message from "@component/Message";
 import InputArea from "@component/InputArea";
 export default {
@@ -36,9 +65,13 @@ export default {
     Layout,
     Sider,
     Icon,
+    Cell,
     Scroll,
     Card,
-    InputArea
+    CellGroup,
+    InputArea,
+    ISwitch,
+    Badge
   },
   computed: {
     href() {
@@ -75,7 +108,8 @@ export default {
       isOverflow: false,
       ws: null,
       COMMANDS: {},
-      myNick: ""
+      myNick: "",
+      switchValue: false
     };
   },
   mounted() {
@@ -117,13 +151,13 @@ export default {
       }
       setTimeout(() => {
         this.scrollToBottom();
-        if (
-          this.$refs.scrollView.$el &&
-          this.$refs.scrollView.$el.querySelector(".ivu-scroll-content")
-            .offsetTop > 0
-        ) {
-          this.isOverflow = true;
-        }
+        // if (
+        //   this.$refs.scrollView.$el &&
+        //   this.$refs.scrollView.$el.querySelector(".ivu-scroll-content")
+        //     .offsetTop > 0
+        // ) {
+        //   this.isOverflow = true;
+        // }
       }, 50);
     },
     scroll() {
