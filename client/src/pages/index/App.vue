@@ -1,17 +1,6 @@
 <template>
   <section>
-    <div class="entry">
-      <p>公共channels:</p>
-      <p>这里列举了一些常用的channels。</p>
-      <ul>
-        <li v-for="(item, index) in channels" :key="index">
-          <Icon type="ios-chatbubbles" color="#ccc" />
-          <router-link :to="item.link">{{item.name}}</router-link>
-        </li>
-      </ul>
-    </div>
-    <router-view></router-view>
-    <!-- <chat-window channel="乡下大佬"/> -->
+    <main-win />
   </section>
 </template>
 
@@ -20,16 +9,11 @@ import { Icon } from "iview";
 export default {
   name: "App",
   data() {
-    return {
-      channels: [
-        {link: '/channel/乡下大佬', name: '乡下大佬'},
-        {link: '/channel/合家欢', name: '合家欢'},
-      ]
-    }
+    return {};
   },
   components: {
     Icon,
-    ChatWindow: () => import("@component/ChatWindow")
+    MainWin: () => import("@component/MainWin")
   },
   mounted() {}
 };

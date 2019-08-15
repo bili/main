@@ -8,12 +8,14 @@
           <template slot="title">
             <Icon type="ios-paper" />Channels
           </template>
-          <MenuItem v-for="(item, index) in channels" :key="index" :name="item+'-'+index">
-            <div class="menu-item">
-              <Icon type="ios-people" size="20" />
-              <div>{{item}}</div>
-            </div>
-          </MenuItem>
+          <router-link :to="'/channel/'+item" v-for="(item, index) in channels" :key="index">
+            <MenuItem :name="item+'-'+index">
+              <div class="menu-item">
+                <Icon type="ios-people" size="20" />
+                <div>{{item}}</div>
+              </div>
+            </MenuItem>
+          </router-link>
         </Submenu>
         <Submenu name="2">
           <template slot="title">
@@ -28,18 +30,14 @@
       <Content class="content">
         <div ref="channel" class="channel" :class="{shadow: isOverflow}">
           <Icon type="ios-chatbubbles" size="20" color="#ccc" />
-          <span>{{channel}}</span>
+          <span>{{$route.params.channel}}</span>
           <span class="href" @click="copy(href)">{{href}}</span>
           <Icon type="md-copy" class="copy" color="#ccc" @click="copy(href)" />
         </div>
         <Scroll ref="scrollView" :height="scrollHeight">
-          <message
-            class="row"
-            v-for="(item, index) in messages"
-            :key="index"
-            :msg="item"
-            :me="myNick"
-          />
+          <keep-alive>
+            <router-view ref="chatWin"></router-view>
+          </keep-alive>
         </Scroll>
         <input-area ref="inputArea" @send="sendMessage" />
       </Content>
@@ -89,7 +87,7 @@ import {
 import Message from "@component/Message";
 import InputArea from "@component/InputArea";
 export default {
-  name: "chat-window",
+  name: "main-win",
   components: {
     Message,
     Layout,
@@ -179,10 +177,12 @@ export default {
         .scrollIntoView({ block: "end", behavior: "smooth" });
     },
     pushMessage(args) {
+      console.log('=======push', args)
       if (args.text) {
-        this.messages.push({
+        this.$refs.chatWin.appendMessage({
           text: args.text,
-          nick: args.nick
+          nick: args.nick,
+          channel: args.channel
         });
       }
       setTimeout(() => {
@@ -201,7 +201,7 @@ export default {
       // this.isOverflow = false;
     },
     sendMessage(input) {
-      this.send({ cmd: "chat", text: input });
+      this.send({ cmd: "chat", text: input, channel: this.channel });
     },
     send(data) {
       if (this.ws && this.ws.readyState == this.ws.OPEN) {
@@ -217,6 +217,7 @@ export default {
       this.ws.onopen = () => {
         if (!wasConnected) {
           this.myNick = prompt("创建一个昵称:", this.myNick);
+          window.localStorage.setItem("myNick", this.myNick);
         }
 
         if (this.myNick) {
@@ -231,7 +232,8 @@ export default {
         if (wasConnected) {
           this.pushMessage({
             nick: "!",
-            text: "Server disconnected. Attempting to reconnect. . ."
+            text: "Server disconnected. Attempting to reconnect. . .",
+            channel: channel
           });
         }
 
@@ -243,7 +245,6 @@ export default {
       this.ws.onmessage = message => {
         var args = JSON.parse(message.data);
         var cmd = args.cmd;
-        console.log("onmessage", args);
         // var command = this[cmd];
         // command.call(null, args);
         this.chat.call(null, args);
@@ -369,7 +370,8 @@ export default {
 .menu-item > div {
   margin-left: 5px;
 }
-.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu):after {
+.ivu-menu-light.ivu-menu-vertical
+  .ivu-menu-item-active:not(.ivu-menu-submenu):after {
   background: none;
 }
 </style>

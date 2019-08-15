@@ -35,12 +35,12 @@ exports.run = async (core, server, socket, data) => {
       text: 'You are sending too much text. Wait a moment and try again.\nPress the up arrow key to restore your last message.'
     }, socket);
   }
-
   // build chat payload
   let payload = {
     cmd: 'chat',
     nick: socket.nick,
-    text: text
+    text: text,
+    channel: data.channel
   };
 
   if (socket.uType == 'admin') {
