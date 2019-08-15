@@ -49,9 +49,9 @@ export default {
   font-weight: bold;
   color: #515a6e;
   transition: all 0.3s;
+  border: 2px solid transparent;
 }
 .wrapper:hover .msg > div {
-  transition: all 0.3s;
 }
 .send-time {
   margin-left: 10px;
@@ -75,7 +75,7 @@ export default {
   }
 }
 .me .msg > div {
-  color: white;
-  background: #3f51b5;
+  color: darkgreen;
+  background: lightgreen;
 }
 </style>

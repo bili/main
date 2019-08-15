@@ -1,25 +1,27 @@
 <template>
   <div class="layout">
-    <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto', borderRight: '1px solid #ddd', background: 'white  '}">
-      <Card title="Options" icon="ios-options" :padding="0" shadow style="width: 200px;">
-        <CellGroup>
-          <Cell title="Only show titles" />
-          <Cell title="Display label content" label="label content" />
-          <Cell title="Display right content" extra="details" />
-          <Cell title="Link" extra="details" to="/components/button" />
-          <Cell title="Open link in new window" to="/components/button" target="_blank" />
-          <Cell title="Disabled" disabled />
-          <Cell title="Selected" selected />
-          <Cell title="With Badge" to="/components/badge">
-            <Badge :count="10" slot="extra" />
-          </Cell>
-          <Cell title="With Switch">
-            <ISwitch v-model="switchValue" slot="extra" />
-          </Cell>
-        </CellGroup>
-      </Card>
+    <Sider
+      :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto', borderRight: '1px solid #ddd', background: 'darkgray'}"
+    >
+      <Menu :theme="theme" width="200px" :open-names="openNames">
+        <Submenu name="1">
+          <template slot="title">
+            <Icon type="ios-paper" />Channels
+          </template>
+          <MenuItem name="1-1">文章管理</MenuItem>
+          <MenuItem name="1-2">评论管理</MenuItem>
+          <MenuItem name="1-3">举报管理</MenuItem>
+        </Submenu>
+        <Submenu name="2">
+          <template slot="title">
+            <Icon type="ios-people" />Bots
+          </template>
+          <MenuItem name="2-1">EasyOps-bot</MenuItem>
+          <MenuItem name="2-2">Diary-bot</MenuItem>
+        </Submenu>
+      </Menu>
     </Sider>
-    <Layout :style="{marginLeft: '200px'}">
+    <Layout :style="{marginLeft: '200px', marginRight: '200px'}">
       <Content class="content">
         <div ref="channel" class="channel" :class="{shadow: isOverflow}">
           <Icon type="ios-chatbubbles" size="20" color="#ccc" />
@@ -39,6 +41,27 @@
         <input-area ref="inputArea" @send="sendMessage" />
       </Content>
     </Layout>
+    <Sider
+      :style="{position: 'fixed', height: '100vh', top: 0, right: 0, overflow: 'auto', borderLeft: '1px solid #ddd', background: 'white  '}"
+    >
+      <Card title="Options" icon="ios-options" :padding="0" shadow style="width: 200px;">
+        <CellGroup>
+          <Cell title="Only show titles" />
+          <Cell title="Display label content" label="label content" />
+          <Cell title="Display right content" extra="details" />
+          <Cell title="Link" extra="details" to="/components/button" />
+          <Cell title="Open link in new window" to="/components/button" target="_blank" />
+          <Cell title="Disabled" disabled />
+          <Cell title="Selected" selected />
+          <Cell title="With Badge" to="/components/badge">
+            <Badge :count="10" slot="extra" />
+          </Cell>
+          <Cell title="With Switch">
+            <ISwitch v-model="switchValue" slot="extra" />
+          </Cell>
+        </CellGroup>
+      </Card>
+    </Sider>
   </div>
 </template>
 
@@ -54,7 +77,11 @@ import {
   CellGroup,
   Message as Msg,
   Switch as ISwitch,
-  Badge
+  Badge,
+  MenuGroup,
+  Menu,
+  MenuItem,
+  Submenu
 } from "iview";
 import Message from "@component/Message";
 import InputArea from "@component/InputArea";
@@ -71,7 +98,11 @@ export default {
     CellGroup,
     InputArea,
     ISwitch,
-    Badge
+    Badge,
+    MenuGroup,
+    Menu,
+    MenuItem,
+    Submenu
   },
   computed: {
     href() {
@@ -80,6 +111,8 @@ export default {
   },
   data() {
     return {
+      theme: "light",
+      openNames: ['1', '2'],
       channel: "",
       messages: [
         {
@@ -236,7 +269,14 @@ export default {
   }
 };
 </script>
-
+<style>
+.ivu-menu {
+  color: dimgray !important;
+}
+.ivu-menu-vertical .ivu-menu-item:hover, .ivu-menu-vertical .ivu-menu-submenu-title:hover {
+  color: white !important;
+}
+</style>
 <style scoped>
 .layout {
   background: #f5f7f9;
@@ -290,5 +330,28 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.ivu-menu-vertical .ivu-menu-item, .ivu-menu-vertical .ivu-menu-submenu-title {
+  padding: 5px 24px;
+}
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active:hover {
+  background: #009688!important;
+}
+
+.ivu-menu-vertical .ivu-menu-item:hover, .ivu-menu-vertical .ivu-menu-submenu-title:hover {
+  color: white;
+  background: darkgray;
+}
+
+.ivu-menu-light {
+  background: none;
+}
+.ivu-menu {
+  color: dimgray !important;
+}
+.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu) {
+  color: dimgray;
+  background: #969696;
 }
 </style>
