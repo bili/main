@@ -162,7 +162,7 @@ export default {
         false
       );
     this.channel = this.$route.params.channel;
-    this.join(this.channels[1]);
+    this.join(this.channel);
   },
   methods: {
     autoResize() {
