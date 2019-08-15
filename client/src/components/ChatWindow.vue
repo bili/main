@@ -1,16 +1,19 @@
 <template>
   <div class="layout">
     <Sider
-      :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto', borderRight: '1px solid #ddd', background: 'darkgray'}"
+      :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto', borderRight: '1px solid #ddd', background: 'white'}"
     >
       <Menu :theme="theme" width="200px" :open-names="openNames">
         <Submenu name="1">
           <template slot="title">
             <Icon type="ios-paper" />Channels
           </template>
-          <MenuItem name="1-1">文章管理</MenuItem>
-          <MenuItem name="1-2">评论管理</MenuItem>
-          <MenuItem name="1-3">举报管理</MenuItem>
+          <MenuItem v-for="(item, index) in channels" :key="index" :name="item+'-'+index">
+            <div class="menu-item">
+              <Icon type="ios-people" size="20" />
+              <div>{{item}}</div>
+            </div>
+          </MenuItem>
         </Submenu>
         <Submenu name="2">
           <template slot="title">
@@ -112,8 +115,8 @@ export default {
   data() {
     return {
       theme: "light",
-      openNames: ['1', '2'],
-      channel: "",
+      openNames: ["1", "2"],
+      channels: ["乡下大佬", "平安行", "外卖vip", "敢死队", "摄影交流群"],
       messages: [
         {
           text: `BearyChat - 云+社区 - 腾讯云 湾区的创业团队估计都在用 (https:slack.com ),国内的新锐 im 团队基本也都是照着 slack 的样子来搞,比如 瀑布im、bearychat,特点是可以接入各类服务,用起来...`,
@@ -161,7 +164,7 @@ export default {
         false
       );
     this.channel = this.$route.params.channel;
-    this.join(this.channel);
+    this.join(this.channels[1]);
   },
   methods: {
     autoResize() {
@@ -273,8 +276,10 @@ export default {
 .ivu-menu {
   color: dimgray !important;
 }
-.ivu-menu-vertical .ivu-menu-item:hover, .ivu-menu-vertical .ivu-menu-submenu-title:hover {
-  color: white !important;
+/* 菜单主项 */
+.ivu-menu-vertical .ivu-menu-item:hover,
+.ivu-menu-vertical .ivu-menu-submenu-title:hover {
+  color: dimgray !important;
 }
 </style>
 <style scoped>
@@ -332,16 +337,17 @@ export default {
   white-space: nowrap;
 }
 
-.ivu-menu-vertical .ivu-menu-item, .ivu-menu-vertical .ivu-menu-submenu-title {
+/* 子菜单 */
+.ivu-menu-vertical .ivu-menu-item,
+.ivu-menu-vertical .ivu-menu-submenu-title {
   padding: 5px 24px;
-}
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active:hover {
-  background: #009688!important;
+  cursor: default !important;
 }
 
-.ivu-menu-vertical .ivu-menu-item:hover, .ivu-menu-vertical .ivu-menu-submenu-title:hover {
+.ivu-menu-vertical .ivu-menu-item:hover,
+.ivu-menu-vertical .ivu-menu-submenu-title:hover {
   color: white;
-  background: darkgray;
+  background: #eee;
 }
 
 .ivu-menu-light {
@@ -350,8 +356,20 @@ export default {
 .ivu-menu {
   color: dimgray !important;
 }
+/* 菜单激活状态 */
 .ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu) {
-  color: dimgray;
-  background: #969696;
+  color: darkblue;
+  background: lightblue;
+}
+/* channel单项 */
+.menu-item {
+  display: flex;
+  align-items: center;
+}
+.menu-item > div {
+  margin-left: 5px;
+}
+.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu):after {
+  background: none;
 }
 </style>
